@@ -1,51 +1,50 @@
 {
   "kind": "build_request",
-  "title": "Remove image from Day 3 Sanskruti Novelty recommendation card (text-only)",
-  "priority": "normal",
+  "title": "Remove Sanskruti Novelty recommendation card image by deleting the `image` field from Day 3 data",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-30",
-      "text": "Update the Day 3 itinerary recommendation card UI so the “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card renders with NO image (no <img>, no image container, and no placeholder area). The card must display text-only while keeping the existing “Recommended” badge.",
+      "id": "REQ-32",
+      "text": "In `frontend/src/data/dwarkaGuide.ts`, locate the Day 3 itinerary item that contains the recommendation card for shop name \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" and completely delete the `image:` property from that specific recommendation-card object (do not set it to null and do not replace it with any placeholder URL).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-4"
         ],
         "quotes": [
-          "Please REMOVE the image completely.\n\nDo not show any image or placeholder. Just the text."
+          "Completely DELETE the `image:` property from that object.\nDo not set it to null, do not set it to a placeholder URL.\nJUST DELETE THE LINE."
         ]
       },
       "acceptanceCriteria": [
-        "When viewing the Day 3 itinerary, the Sanskruti Novelty recommendation card displays no image element and no reserved image space (no blank image block).",
-        "The “Recommended” badge remains visible in the top-right of the card."
+        "The Day 3 recommendation card data object for \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" contains no `image` key/property at all (it is not present in the source).",
+        "No other code re-adds an `image` field to that object at build/runtime (no derived/merged data introduces it)."
       ]
     },
     {
-      "id": "REQ-31",
-      "text": "Ensure the text shown inside the Sanskruti Novelty card matches exactly:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"",
+      "id": "REQ-33",
+      "text": "Ensure the Day 3 recommendation card UI for \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" renders as text-only (title, subtitle, description) with no image area rendered (no `<img>` and no image container/space).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-4"
         ],
         "quotes": [
-          "Just keep the text details:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\""
+          "The card should ONLY display:\n- Title\n- Subtitle\n- Description\n\nUpdate the code now to hide the image area completely."
         ]
       },
       "acceptanceCriteria": [
-        "The Sanskruti Novelty card title, subtitle, and description render exactly as specified (character-for-character, including punctuation and emoji).",
-        "No other text in that card is changed as part of this update."
+        "When viewing Day 3 in the Yatra Plan tab, the Sanskruti Novelty recommendation card shows only title, subtitle, and description (plus the existing Recommended badge if already present).",
+        "There is no `<img>` element rendered for this card and no empty/placeholder image container is present in the DOM for this card."
       ]
     }
   ],
   "constraints": [
-    "Do not introduce any new network requests; the app must remain offline-first for core content.",
-    "Do not add or require any backend/canister interactions to render the itinerary or recommendation card.",
-    "Do not edit any files under frontend/src/components/ui (read-only components must be composed, not modified)."
+    "Do not add any network/API/canister dependency to implement this change.",
+    "Do not modify any files under `frontend/src/components/ui` or any other immutable frontend paths specified by SYSTEM_CONTEXT."
   ],
   "nonGoals": [
-    "Do not change the Day 3 route sequence, timeline items, or Google Maps deep links beyond removing the recommendation card image.",
-    "Do not add new images or replace existing generated placeholder assets (they may remain in the repo even if unused)."
+    "Do not add or generate any new images or placeholder assets for this card.",
+    "Do not change the Day 3 itinerary text content aside from removing the `image` property as requested."
   ],
   "imageRequirements": {
     "required": [],

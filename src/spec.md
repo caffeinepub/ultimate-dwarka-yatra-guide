@@ -1,10 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Make the Day 3 “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty recommendation card render as text-only (no image and no reserved image space) while keeping the “Recommended” badge.
+**Goal:** Remove the Sanskruti Novelty (संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)) recommendation card image from Day 3 and ensure the card renders text-only with no image area.
 
 **Planned changes:**
-- Remove the image element and any image container/placeholder spacing from the Day 3 Sanskruti Novelty recommendation card so it displays text-only.
-- Set the Sanskruti Novelty card text to exactly match the specified Title, Subtitle, and Description without changing any other text in that card.
+- In `frontend/src/data/dwarkaGuide.ts`, delete the `image` property from the Day 3 recommendation-card object for "संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)".
+- Update the Day 3 recommendation card rendering so that when no `image` is present, it does not render an `<img>` or any image container/space for that card.
 
-**User-visible outcome:** On Day 3, the Sanskruti Novelty “Recommended” card shows the badge and the exact provided text, with no image and no blank image area.
+**User-visible outcome:** In the Yatra Plan tab on Day 3, the Sanskruti Novelty recommendation card displays only title, subtitle, and description (and any existing badge), with no image or blank image space shown.

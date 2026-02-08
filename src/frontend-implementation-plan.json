@@ -1,45 +1,35 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Day 3 Sanskruti Novelty recommendation card: remove image and enforce exact text",
+  "title": "Remove Sanskruti Novelty recommendation card image data and ensure text-only rendering",
   "requirements": [
     {
-      "id": "REQ-30",
-      "summary": "Render the Day 3 Sanskruti Novelty “Recommended” recommendation card as text-only with no image element or reserved image space while keeping the badge.",
+      "id": "REQ-32",
+      "summary": "Remove the image reference from the Day 3 recommendation card data object for \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" so it has no image property present in source or derived data.",
       "acceptanceCriteria": [
-        "When viewing the Day 3 itinerary, the Sanskruti Novelty recommendation card displays no image element and no reserved image space (no blank image block).",
-        "The “Recommended” badge remains visible in the top-right of the card."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/recommendation/Card.tsx",
-          "operation": "modify",
-          "description": "Update the recommendation Card component to support an optional image and conditionally render the entire image section only when an image is provided (ensuring no <img>, no image container, and no placeholder space for text-only cards)."
-        },
-        {
-          "path": "frontend/src/tabs/YatraPlanTab.tsx",
-          "operation": "modify",
-          "description": "Adjust Day 3 recommendation card rendering so the Sanskruti Novelty card passes no image to the recommendation Card (triggering the new text-only behavior) while keeping the existing Badge (Recommended) child visible in the top-right."
-        }
-      ]
-    },
-    {
-      "id": "REQ-31",
-      "summary": "Ensure the Sanskruti Novelty card title, subtitle, and description text match the specified strings exactly.",
-      "acceptanceCriteria": [
-        "The Sanskruti Novelty card title, subtitle, and description render exactly as specified (character-for-character, including punctuation and emoji).",
-        "No other text in that card is changed as part of this update."
+        "The Day 3 recommendation card data object for \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" contains no `image` key/property at all (it is not present in the source).",
+        "No other code re-adds an `image` field to that object at build/runtime (no derived/merged data introduces it)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/data/dwarkaGuide.ts",
           "operation": "modify",
-          "description": "Verify and, if needed, update the Day 3 Sanskruti Novelty recommendationCard fields so the rendered title/shopName, location (used with the 📍 prefix in the UI), and details/description match exactly: shopName=\"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\", location=\"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\", details=\"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"."
-        },
+          "description": "Locate the Day 3 itinerary item's recommendationCard for shopName \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" and completely delete the image property line from that object (in current data this is stored as `placeholderImage`; remove the entire property line rather than setting to null/empty). Update the RecommendationCard typing to allow the image field to be absent so TypeScript does not require re-adding it."
+        }
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "summary": "Ensure the Sanskruti Novelty Day 3 recommendation card renders with no image container or <img>, showing only title/subtitle/description (plus existing badge).",
+      "acceptanceCriteria": [
+        "When viewing Day 3 in the Yatra Plan tab, the Sanskruti Novelty recommendation card shows only title, subtitle, and description (plus the existing Recommended badge if already present).",
+        "There is no `<img>` element rendered for this card and no empty/placeholder image container is present in the DOM for this card."
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/tabs/YatraPlanTab.tsx",
           "operation": "modify",
-          "description": "Ensure the Sanskruti Novelty card continues to render the specified strings without additional formatting changes (subtitle must render exactly as: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"; do not alter other text in the card, and keep the Badge text as-is)."
+          "description": "Update recommendation card rendering so the Card component is only given an image prop when an image field exists, and explicitly ensure the shopName \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" never receives an image prop (so the Card component does not render any image wrapper for this card)."
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 19,
+  "projectStateVersion": 21,
   "summary": "Extend the offline-ready Hindi-only Dwarka Yatra Guide PWA to be business-ready and installable: add an in-app “Install App for Offline Use” prompt (Add to Home Screen), and add monetization UI in the Connectivity/Transport tab with a highlighted Rent a Car/Bike section and WhatsApp booking link, while ensuring peacock-feather header icon, correct Bhadkeshwar spelling, and unique Day 3 itinerary logic.",
   "architectural_notes": [
     "Offline-first: use only local/hardcoded data; no external API/network calls.",
@@ -17,9 +17,10 @@
   "known_issues": [
     "Bug: Selecting \"दिन 3\" currently shows the same itinerary as \"दिन 1\" (Day 3 logic not applied).",
     "Potential offline-first conflict: using a remote/generic placeholder image URL may trigger a network request; ensure placeholder is local/bundled or cached by service worker.",
-    "Day 3 itinerary route sequence/content is out of date vs the requested exact order (needs Harsad -> Visavada -> Porbandar + “What’s Next?” card)."
+    "Day 3 itinerary route sequence/content is out of date vs the requested exact order (needs Harsad -> Visavada -> Porbandar + “What’s Next?” card).",
+    "Regression/bug: Day 3 Sanskruti Novelty (Recommended) card still shows an image area; user requires the `image:` line to be deleted from the Day 3 data object and the UI to be text-only (no image container)."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-create-a-modern-single-page-app-shell-with-a-fixed-bottom-tab-bar-containing-exactly-4-tabs-yatra-plan-connectivity-stay-food-and-rules-timings-switching-tabs-must-not-trigger-any-network-api-canister-calls-and-must-work-fully-offline",
@@ -268,6 +269,14 @@
         "REQ-31"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-in-frontend-src-data-dwarkaguide-ts-locate-the-day-3-itinerary-item-that-contains-the-recommendation-card-for-shop-name-and-completely-delete-the-image-property-from-that-specific-recommendation-card-object-do-not-set-it-to-null-and-do-not-replace-it-with-any-placeholder-url",
+      "title": "In `frontend/src/data/dwarkaGuide.ts`, locate the Day 3 itinerary item that contains the recommendation card for shop name \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" and completely delete the `image:` property from that specific recommendation-card object (do not set it to null and do not replace it with any placeholder URL).",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -359,6 +368,14 @@
       "id": "AR-25",
       "summary": "Day 3 highlighted “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card: remove the image/placeholder completely and render text-only with Title “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”, Subtitle “📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस”, Description “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।”",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Ensure the Day 3 recommendation card UI for \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\" renders as text-only (title, subtitle, description) with no image area rendered (no `<img>` and no image container/space).",
+      "reqIds": [
+        "REQ-33"
+      ],
       "status": "pending"
     }
   ],
