@@ -1,21 +1,64 @@
 {
   "kind": "build_request",
-  "title": "Apply Day 2/Day 3 itinerary content updates and add highlighted Sanskruti Novelty card",
+  "title": "Remove image from Day 3 Sanskruti Novelty recommendation card (text-only)",
   "priority": "normal",
-  "requirements": [],
+  "requirements": [
+    {
+      "id": "REQ-30",
+      "text": "Update the Day 3 itinerary recommendation card UI so the “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card renders with NO image (no <img>, no image container, and no placeholder area). The card must display text-only while keeping the existing “Recommended” badge.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "Please REMOVE the image completely.\n\nDo not show any image or placeholder. Just the text."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When viewing the Day 3 itinerary, the Sanskruti Novelty recommendation card displays no image element and no reserved image space (no blank image block).",
+        "The “Recommended” badge remains visible in the top-right of the card."
+      ]
+    },
+    {
+      "id": "REQ-31",
+      "text": "Ensure the text shown inside the Sanskruti Novelty card matches exactly:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-6"
+        ],
+        "quotes": [
+          "Just keep the text details:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\""
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Sanskruti Novelty card title, subtitle, and description render exactly as specified (character-for-character, including punctuation and emoji).",
+        "No other text in that card is changed as part of this update."
+      ]
+    }
+  ],
   "constraints": [
-    "Keep all guide content offline-first and bundled in the frontend as local/hardcoded data; no canister/API calls are required for these updates.",
-    "Do not edit any files under frontend/src/components/ui or any other immutable frontend paths listed in SYSTEM_CONTEXT.",
-    "Maintain the single-actor backend architecture; do not introduce new backend dependencies for itinerary content.",
-    "Preserve the exact Hindi strings provided by the user for itinerary item place text and the Beyt Dwarka timing note."
+    "Do not introduce any new network requests; the app must remain offline-first for core content.",
+    "Do not add or require any backend/canister interactions to render the itinerary or recommendation card.",
+    "Do not edit any files under frontend/src/components/ui (read-only components must be composed, not modified)."
   ],
   "nonGoals": [
-    "Do not add a language switcher or any new navigation tabs.",
-    "Do not introduce any external maps SDKs, API keys, or third-party integrations.",
-    "Do not add real shop photography; only a placeholder image slot/URL is in scope."
+    "Do not change the Day 3 route sequence, timeline items, or Google Maps deep links beyond removing the recommendation card image.",
+    "Do not add new images or replace existing generated placeholder assets (they may remain in the repo even if unused)."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

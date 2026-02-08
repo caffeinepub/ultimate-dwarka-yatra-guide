@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 13,
+  "projectStateVersion": 19,
   "summary": "Extend the offline-ready Hindi-only Dwarka Yatra Guide PWA to be business-ready and installable: add an in-app “Install App for Offline Use” prompt (Add to Home Screen), and add monetization UI in the Connectivity/Transport tab with a highlighted Rent a Car/Bike section and WhatsApp booking link, while ensuring peacock-feather header icon, correct Bhadkeshwar spelling, and unique Day 3 itinerary logic.",
   "architectural_notes": [
     "Offline-first: use only local/hardcoded data; no external API/network calls.",
@@ -11,13 +11,15 @@
     "Rules/Warnings content must reflect the updated prohibited items list (offline/local content), shown in Hindi.",
     "Support PWA installability (web app manifest + service worker) while preserving offline-first behavior (no required network calls for core content).",
     "Allow external deep links for business actions (e.g., WhatsApp “Book Now”) similar to Google Maps links; no in-app WhatsApp SDK required.",
-    "When adding a placeholder shop image, avoid external network dependencies; prefer a bundled local asset or data-URI placeholder to preserve offline-first behavior."
+    "When adding a placeholder shop image, avoid external network dependencies; prefer a bundled local asset or data-URI placeholder to preserve offline-first behavior.",
+    "Decision: For the Day 3 highlighted “Sanskruti Novelty” recommendation, replace the current shop card UI with the provided <Card> + <Badge (Recommended)> structure (not merge). Ensure the image source remains offline-first (use bundled/local placeholder asset instead of the Imgur URL)."
   ],
   "known_issues": [
     "Bug: Selecting \"दिन 3\" currently shows the same itinerary as \"दिन 1\" (Day 3 logic not applied).",
-    "Potential offline-first conflict: using a remote/generic placeholder image URL may trigger a network request; ensure placeholder is local/bundled or cached by service worker."
+    "Potential offline-first conflict: using a remote/generic placeholder image URL may trigger a network request; ensure placeholder is local/bundled or cached by service worker.",
+    "Day 3 itinerary route sequence/content is out of date vs the requested exact order (needs Harsad -> Visavada -> Porbandar + “What’s Next?” card)."
   ],
-  "isFixRequest": true,
+  "isFixRequest": false,
   "existing_features": [
     {
       "id": "feature-create-a-modern-single-page-app-shell-with-a-fixed-bottom-tab-bar-containing-exactly-4-tabs-yatra-plan-connectivity-stay-food-and-rules-timings-switching-tabs-must-not-trigger-any-network-api-canister-calls-and-must-work-fully-offline",
@@ -210,6 +212,62 @@
         "REQ-24"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-day-3-itinerary-data-for-the-3-days-plan-to-match-the-exact-new-route-sequence-and-time-ranges-provided-by-the-user-including-the-harsad-visavada-stop-order-and-remove-replace-any-conflicting-older-day-3-items-so-only-the-new-sequence-is-shown-when-3-days-is-selected",
+      "title": "Update the Day 3 itinerary data for the \"3 Days\" plan to match the exact new route sequence and time ranges provided by the user (including the Harsad -> Visavada stop order), and remove/replace any conflicting older Day 3 items so only the new sequence is shown when 3 days is selected.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-keep-google-maps-deep-links-active-for-all-day-3-location-items-and-ensure-the-what-s-next-item-does-not-render-a-google-maps-link-since-it-is-not-a-place",
+      "title": "Keep Google Maps deep links active for all Day 3 location items, and ensure the \"What's Next?\" item does not render a Google Maps link (since it is not a place).",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-day-3-highlighted-shop-card-content-to-match-the-user-s-new-text-keep-the-placeholder-image-slot-visible-and-ensure-the-placeholder-image-works-offline-use-a-bundled-local-asset-rather-than-a-remote-placeholder-url",
+      "title": "Update the Day 3 highlighted shop card content to match the user’s new text, keep the placeholder image slot visible, and ensure the placeholder image works offline (use a bundled local asset rather than a remote placeholder URL).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-existing-day-3-highlighted-recommendation-card-rendering-in-the-yatra-plan-tab-with-the-exact-card-badge-structure-provided-by-the-user-including-1-a-card-component-that-accepts-image-title-subtitle-and-description-2-a-badge-displayed-in-the-top-right-with-orange-styling-and-a-camera-icon-3-the-badge-text-set-to-recommended-exactly",
+      "title": "Replace the existing Day 3 highlighted recommendation card rendering in the Yatra Plan tab with the exact Card + Badge structure provided by the user, including: (1) a Card component that accepts image, title, subtitle, and description; (2) a Badge displayed in the top-right with orange styling and a camera icon; (3) the Badge text set to \"Recommended\" exactly.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-replaced-card-image-source-remains-offline-safe-by-using-the-existing-bundled-local-placeholder-image-path-from-the-recommendation-card-data-recommendationcard-placeholderimage-rather-than-a-remote-url-while-keeping-the-component-api-compatible-with-the-provided-snippet-i-e-still-using-an-image-prop",
+      "title": "Ensure the replaced Card image source remains offline-safe by using the existing bundled local placeholder image path from the recommendation card data (recommendationCard.placeholderImage) rather than a remote URL, while keeping the component API compatible with the provided snippet (i.e., still using an \"image\" prop).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-day-3-itinerary-recommendation-card-ui-so-the-3d-recommended-sanskruti-novelty-card-renders-with-no-image-no-img-no-image-container-and-no-placeholder-area-the-card-must-display-text-only-while-keeping-the-existing-recommended-badge",
+      "title": "Update the Day 3 itinerary recommendation card UI so the “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card renders with NO image (no <img>, no image container, and no placeholder area). The card must display text-only while keeping the existing “Recommended” badge.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-text-shown-inside-the-sanskruti-novelty-card-matches-exactly-title-subtitle-description-3d",
+      "title": "Ensure the text shown inside the Sanskruti Novelty card matches exactly:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -292,20 +350,14 @@
       "status": "pending"
     },
     {
-      "id": "AR-20",
-      "summary": "Update/reorder Day 3 itinerary flow: Morning—द्वारका मार्केट में खरीदारी; Afternoon—पोरबंदर के लिए प्रस्थान (Kirti Mandir & Sudama Mandir); Evening—वापसी या विश्राम (Return/Relax)",
+      "id": "AR-23",
+      "summary": "Refactor Day 3 (दिन 3) itinerary data/logic to this exact sequence with times and map links: Morning 9–11 Dwarka Market & Shopping + highlighted Sanskruti Novelty card; Afternoon 12–3 depart for Porbandar with stops in order Harsad (Harshiddhi Mata Mandir) then Visavada (Mool Dwarka); Evening 4–7 reach Porbandar and visit Kirti Mandir & Sudama Mandir; Night show a “What’s Next?” card with Option A Somnath/Diw, Option B Return Home",
       "reqIds": [],
       "status": "pending"
     },
     {
-      "id": "AR-21",
-      "summary": "Add a special highlighted card inside Day 3 Shopping section: Title “📸 फोटो और 3D स्टूडियो (Recommended)”; Shop “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”; Location “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस (Walking Distance from Temple).”; Details “द्वारकाधीश के सभी प्रकार के लाइटिंग फोटो और 3D फोटो के लिए सबसे अच्छी और किफायती (वाजिब दाम) जगह।”",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-22",
-      "summary": "Add placeholder image area/URL to the Day 3 “Sanskruti Novelty” highlighted card so the layout supports a shop photo slot",
+      "id": "AR-25",
+      "summary": "Day 3 highlighted “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card: remove the image/placeholder completely and render text-only with Title “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”, Subtitle “📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस”, Description “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।”",
       "reqIds": [],
       "status": "pending"
     }

@@ -1,4 +1,42 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-update-the-day-3-itinerary-recommendation-card-ui-so-the-3d-recommended-sanskruti-novelty-card-renders-with-no-image-no-img-no-image-container-and-no-placeholder-area-the-card-must-display-text-only-while-keeping-the-existing-recommended-badge",
+      "featureTitle": "Update the Day 3 itinerary recommendation card UI so the “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card renders with NO image (no <img>, no image container, and no placeholder area). The card must display text-only while keeping the existing “Recommended” badge.",
+      "files": [
+        "frontend/src/components/recommendation/Card.tsx",
+        "frontend/src/tabs/YatraPlanTab.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-30"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-text-shown-inside-the-sanskruti-novelty-card-matches-exactly-title-subtitle-description-3d",
+      "featureTitle": "Ensure the text shown inside the Sanskruti Novelty card matches exactly:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"",
+      "files": [
+        "frontend/src/tabs/YatraPlanTab.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-31"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

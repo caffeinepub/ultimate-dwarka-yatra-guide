@@ -1,10 +1,11 @@
-const CACHE_NAME = 'dwarka-yatra-v1';
+const CACHE_NAME = 'dwarka-yatra-v2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/src/main.tsx',
   '/src/App.tsx',
-  '/src/index.css'
+  '/src/index.css',
+  '/assets/generated/sanskruti-novelty-placeholder.dim_600x400.png'
 ];
 
 self.addEventListener('install', (event) => {

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card as UICard, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Clock, MapPin, ExternalLink, Camera } from 'lucide-react';
+import { Clock, MapPin, ExternalLink } from 'lucide-react';
 import { itineraries } from '../data/dwarkaGuide';
 import { getGoogleMapsUrl } from '../utils/googleMaps';
+import { Card } from '../components/recommendation/Card';
+import { Badge } from '../components/recommendation/Badge';
 
 export default function YatraPlanTab() {
   const [selectedDays, setSelectedDays] = useState<1 | 2 | 3>(1);
@@ -34,7 +36,7 @@ export default function YatraPlanTab() {
 
       <div className="space-y-6">
         {dayPlans.map((dayPlan) => (
-          <Card key={dayPlan.day} className="border-2 border-saffron/20 shadow-md">
+          <UICard key={dayPlan.day} className="border-2 border-saffron/20 shadow-md">
             <CardHeader className="bg-gradient-to-r from-saffron/10 to-ocean/10">
               <CardTitle className="text-xl text-saffron">दिन {dayPlan.day}</CardTitle>
               <CardDescription className="text-base font-medium">{dayPlan.title}</CardDescription>
@@ -62,54 +64,60 @@ export default function YatraPlanTab() {
                         <div className="flex items-start gap-2 mb-1 flex-wrap">
                           <MapPin className="h-5 w-5 text-saffron mt-0.5 flex-shrink-0" />
                           <h4 className="font-semibold text-lg flex-1">{item.place}</h4>
-                          <a
-                            href={getGoogleMapsUrl(item.place)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-ocean hover:text-saffron bg-ocean/10 hover:bg-saffron/10 rounded-md transition-colors border border-ocean/20 hover:border-saffron/20"
-                          >
-                            📍 Map
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
+                          {item.showMap !== false && (
+                            <a
+                              href={getGoogleMapsUrl(item.mapQuery || item.place)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-ocean hover:text-saffron bg-ocean/10 hover:bg-saffron/10 rounded-md transition-colors border border-ocean/20 hover:border-saffron/20"
+                            >
+                              📍 Map
+                              <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
                         </div>
                         {item.description && (
-                          <p className="text-sm text-muted-foreground ml-7">{item.description}</p>
+                          <p className="text-sm text-muted-foreground ml-7 whitespace-pre-line">{item.description}</p>
+                        )}
+                        
+                        {item.stops && item.stops.length > 0 && (
+                          <div className="mt-3 ml-7 space-y-3 border-l-2 border-saffron/30 pl-4">
+                            {item.stops.map((stop, stopIndex) => (
+                              <div key={stopIndex} className="space-y-1">
+                                <div className="flex items-start gap-2 flex-wrap">
+                                  <h5 className="font-medium text-base flex-1">{stop.place}</h5>
+                                  <a
+                                    href={getGoogleMapsUrl(stop.mapQuery || stop.place)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-ocean hover:text-saffron bg-ocean/10 hover:bg-saffron/10 rounded-md transition-colors border border-ocean/20 hover:border-saffron/20"
+                                  >
+                                    📍 Map
+                                    <ExternalLink className="h-3 w-3" />
+                                  </a>
+                                </div>
+                                <p className="text-sm text-muted-foreground">{stop.description}</p>
+                              </div>
+                            ))}
+                          </div>
                         )}
                         
                         {item.recommendationCard && (
-                          <Card className="mt-4 ml-7 border-2 border-saffron bg-gradient-to-br from-saffron/5 to-ocean/5 shadow-lg">
-                            <CardHeader className="pb-3">
-                              <CardTitle className="text-base flex items-center gap-2 text-saffron">
-                                <Camera className="h-5 w-5" />
-                                {item.recommendationCard.title}
-                              </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-3">
-                              <div className="relative w-full h-48 rounded-lg overflow-hidden bg-muted">
-                                <img
-                                  src={item.recommendationCard.placeholderImage}
-                                  alt={item.recommendationCard.shopName}
-                                  className="w-full h-full object-cover"
-                                  onError={(e) => {
-                                    e.currentTarget.style.display = 'none';
-                                  }}
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <div>
-                                  <p className="text-sm font-semibold text-foreground">
-                                    {item.recommendationCard.shopName}
-                                  </p>
-                                  <p className="text-xs text-muted-foreground mt-0.5">
-                                    📍 {item.recommendationCard.location}
-                                  </p>
-                                </div>
-                                <p className="text-sm text-foreground leading-relaxed">
-                                  {item.recommendationCard.details}
-                                </p>
-                              </div>
-                            </CardContent>
-                          </Card>
+                          <div className="mt-4 ml-7">
+                            <Card
+                              title={item.recommendationCard.shopName}
+                              subtitle={`📍 ${item.recommendationCard.location}`}
+                              description={item.recommendationCard.details}
+                            >
+                              <Badge
+                                color="orange"
+                                position="top-right"
+                                icon="camera"
+                              >
+                                Recommended
+                              </Badge>
+                            </Card>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -118,7 +126,7 @@ export default function YatraPlanTab() {
                 ))}
               </div>
             </CardContent>
-          </Card>
+          </UICard>
         ))}
       </div>
     </div>

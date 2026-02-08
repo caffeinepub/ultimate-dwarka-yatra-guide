@@ -1,6 +1,47 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Apply Day 2/Day 3 itinerary content updates and add highlighted Sanskruti Novelty card",
-  "requirements": []
+  "title": "Day 3 Sanskruti Novelty recommendation card: remove image and enforce exact text",
+  "requirements": [
+    {
+      "id": "REQ-30",
+      "summary": "Render the Day 3 Sanskruti Novelty “Recommended” recommendation card as text-only with no image element or reserved image space while keeping the badge.",
+      "acceptanceCriteria": [
+        "When viewing the Day 3 itinerary, the Sanskruti Novelty recommendation card displays no image element and no reserved image space (no blank image block).",
+        "The “Recommended” badge remains visible in the top-right of the card."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/recommendation/Card.tsx",
+          "operation": "modify",
+          "description": "Update the recommendation Card component to support an optional image and conditionally render the entire image section only when an image is provided (ensuring no <img>, no image container, and no placeholder space for text-only cards)."
+        },
+        {
+          "path": "frontend/src/tabs/YatraPlanTab.tsx",
+          "operation": "modify",
+          "description": "Adjust Day 3 recommendation card rendering so the Sanskruti Novelty card passes no image to the recommendation Card (triggering the new text-only behavior) while keeping the existing Badge (Recommended) child visible in the top-right."
+        }
+      ]
+    },
+    {
+      "id": "REQ-31",
+      "summary": "Ensure the Sanskruti Novelty card title, subtitle, and description text match the specified strings exactly.",
+      "acceptanceCriteria": [
+        "The Sanskruti Novelty card title, subtitle, and description render exactly as specified (character-for-character, including punctuation and emoji).",
+        "No other text in that card is changed as part of this update."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/dwarkaGuide.ts",
+          "operation": "modify",
+          "description": "Verify and, if needed, update the Day 3 Sanskruti Novelty recommendationCard fields so the rendered title/shopName, location (used with the 📍 prefix in the UI), and details/description match exactly: shopName=\"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\", location=\"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\", details=\"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"."
+        },
+        {
+          "path": "frontend/src/tabs/YatraPlanTab.tsx",
+          "operation": "modify",
+          "description": "Ensure the Sanskruti Novelty card continues to render the specified strings without additional formatting changes (subtitle must render exactly as: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"; do not alter other text in the card, and keep the Badge text as-is)."
+        }
+      ]
+    }
+  ]
 }

@@ -1,20 +1,49 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T21:32:47.772Z",
+  "generatedAt": "2026-02-08T22:09:17.430Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 0,
-    "implemented": 0,
-    "items": []
+    "total": 2,
+    "implemented": 2,
+    "items": [
+      {
+        "id": "REQ-30",
+        "summary": "Update the Day 3 itinerary recommendation card UI so the “फोटो और 3D स्टूडियो (Recommended)” / Sanskruti Novelty card renders with NO image (no <img>, no image container, and no placeholder area). The card must display text-only while keeping the existing “Recommended” badge.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/recommendation/Card.tsx",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/recommendation/Card.tsx",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ]
+      },
+      {
+        "id": "REQ-31",
+        "summary": "Ensure the text shown inside the Sanskruti Novelty card matches exactly:\n- Title: \"संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)\"\n- Subtitle: \"📍 द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस\"\n- Description: \"द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस - लाइटिंग और 3D फोटो के लिए बेस्ट।\"",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dwarkaGuide.ts",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ]
+      }
+    ]
   },
   "changedFiles": [
     "build-request.json",
     "feature_evidence.json",
+    "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/src/components/recommendation/Card.tsx",
+    "frontend/src/tabs/YatraPlanTab.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
