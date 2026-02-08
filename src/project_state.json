@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 13,
   "summary": "Extend the offline-ready Hindi-only Dwarka Yatra Guide PWA to be business-ready and installable: add an in-app “Install App for Offline Use” prompt (Add to Home Screen), and add monetization UI in the Connectivity/Transport tab with a highlighted Rent a Car/Bike section and WhatsApp booking link, while ensuring peacock-feather header icon, correct Bhadkeshwar spelling, and unique Day 3 itinerary logic.",
   "architectural_notes": [
     "Offline-first: use only local/hardcoded data; no external API/network calls.",
