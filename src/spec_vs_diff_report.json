@@ -1,0 +1,42 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T21:27:51.566Z",
+  "summary": "REQ-21 appears implemented in local data for both 2-day and 3-day itineraries (new Beyt Dwarka Temple Darshan step inserted after Sudarshan Setu with the exact provided note/timings). Day 3 reorder and the highlighted recommendation card + placeholder image seem to be in progress/implemented, but the diff is truncated so the exact required Day 3 item strings and the exact card text fields/placeholder URL cannot be fully verified from the provided evidence.",
+  "missing_requirements": [
+    {
+      "id": "REQ-22",
+      "requirement": "Reorder the local Day 3 itinerary flow so the sequence is exactly: Morning—“📍 द्वारका मार्केट में खरीदारी (Dwarka Market Shopping)”; Afternoon—“📍 पोरबंदर के लिए प्रस्थान (Travel to Porbandar - Kirti Mandir & Sudama Mandir)”; Evening—“वापसी या विश्राम (Return/Relax)”, removing any conflicting older Day 3 items.",
+      "reason": "The diff shows the Day 3 morning item with the correct text, but the Day 3 afternoon and evening items are not visible due to truncation, so the exact requested order and exact remaining two place strings cannot be confirmed.",
+      "evidence": [
+        "frontend/src/data/dwarkaGuide.ts (truncated at Day 3 recommendationCard)"
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "requirement": "Add a special highlighted recommendation card inside the Day 3 “Shopping” section with the exact Title, Shop Name, Location, and Details strings provided, and make it visually distinct.",
+      "reason": "The data structure indicates a recommendationCard exists for the Day 3 shopping item and the UI file mentions rendering a highlighted card, but the diff is truncated before the exact four required text fields are shown, so exact-string compliance cannot be verified.",
+      "evidence": [
+        "frontend/src/data/dwarkaGuide.ts (recommendationCard block is truncated)",
+        "frontend/src/tabs/YatraPlanTab.tsx (truncated before recommendation card rendering details are fully shown)"
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "requirement": "Within the highlighted recommendation card, include a placeholder image area using a generic placeholder URL sourced from local data/config so it can be replaced later, and it must not break offline-first UX.",
+      "reason": "The data model includes a placeholderImage field, and file summary claims image error handling, but the diff does not show the actual placeholder URL value nor the actual <img>/image-slot implementation details due to truncation, so it cannot be confirmed.",
+      "evidence": [
+        "frontend/src/data/dwarkaGuide.ts (placeholderImage field defined; actual value not visible due to truncation)",
+        "frontend/src/tabs/YatraPlanTab.tsx (truncated; image slot/rendering not visible)"
+      ]
+    }
+  ],
+  "hallucinated_features": [],
+  "confidence": 0.62,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/data/dwarkaGuide.ts",
+    "frontend/src/tabs/YatraPlanTab.tsx",
+    "project_state.json"
+  ]
+}

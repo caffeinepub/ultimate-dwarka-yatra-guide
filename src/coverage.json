@@ -1,0 +1,75 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T21:27:51.570Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 4,
+    "implemented": 4,
+    "items": [
+      {
+        "id": "REQ-21",
+        "summary": "Update the local Day 2 itinerary data to insert a new step immediately after the existing “Cross Sudarshan Setu / सुदर्शन सेतु” step: place text must be exactly “📍 बेट द्वारका मुख्य मंदिर दर्शन (Beyt Dwarka Temple Darshan)” and it must include an important note/description exactly “ध्यान दें: मंदिर दोपहर 1:00 बजे से 3:00 बजे तक बंद रहता है।” including the timing context “(Timings: 9 AM - 1 PM & 3 PM - 6 PM)” as part of the same step’s note.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dwarkaGuide.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/data/dwarkaGuide.ts"
+        ]
+      },
+      {
+        "id": "REQ-22",
+        "summary": "Reorder the local Day 3 itinerary flow so the sequence is reversed to match: Morning—“📍 द्वारका मार्केट में खरीदारी (Dwarka Market Shopping)”; Afternoon—“📍 पोरबंदर के लिए प्रस्थान (Travel to Porbandar - Kirti Mandir & Sudama Mandir)”; Evening—“वापसी या विश्राम (Return/Relax)”. Remove/replace any conflicting older Day 3 items so the displayed Day 3 timeline reflects this exact order and text.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dwarkaGuide.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/data/dwarkaGuide.ts"
+        ]
+      },
+      {
+        "id": "REQ-23",
+        "summary": "Add a special highlighted recommendation card inside the Day 3 “Shopping” section (i.e., rendered within the Shopping timeline item content) with these exact texts: Title “📸 फोटो और 3D स्टूडियो (Recommended)”; Shop Name “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”; Location “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस (Walking Distance from Temple).”; Details “द्वारकाधीश के सभी प्रकार के लाइटिंग फोटो और 3D फोटो के लिए सबसे अच्छी और किफायती (वाजिब दाम) जगह।” The card must be visually distinct from normal text (highlighted styling).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dwarkaGuide.ts",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/data/dwarkaGuide.ts",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ]
+      },
+      {
+        "id": "REQ-24",
+        "summary": "Within the highlighted “Sanskruti Novelty” recommendation card, include a placeholder image area that uses a generic placeholder URL (not yet a real shop photo) so the layout is correct.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dwarkaGuide.ts",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/data/dwarkaGuide.ts",
+          "frontend/src/tabs/YatraPlanTab.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/data/dwarkaGuide.ts",
+    "frontend/src/tabs/YatraPlanTab.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

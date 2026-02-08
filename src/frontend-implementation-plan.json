@@ -1,0 +1,82 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Offline Yatra Plan content updates (Day 2 Beyt Dwarka step, Day 3 reorder, highlighted Sanskruti Novelty card + placeholder image)",
+  "requirements": [
+    {
+      "id": "REQ-21",
+      "summary": "Insert the Beyt Dwarka Temple Darshan step after “सुदर्शन सेतु” in local Day 2 itinerary data for both 2-day and 3-day plans, with the exact required note text.",
+      "acceptanceCriteria": [
+        "In frontend/src/data/dwarkaGuide.ts, the Day 2 plan under the 2-day and 3-day itineraries contains a new item directly after the “सुदर्शन सेतु” item.",
+        "The inserted item’s place text matches exactly: “📍 बेट द्वारका मुख्य मंदिर दर्शन (Beyt Dwarka Temple Darshan)”.",
+        "The inserted item’s note/description includes exactly the provided closure note in Hindi and also includes the provided English timing context string.",
+        "No backend/canister calls are introduced; content remains fully local/offline."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/dwarkaGuide.ts",
+          "operation": "modify",
+          "description": "Update the local itineraries data: in itineraries[2] Day 2 and itineraries[3] Day 2, insert a new ItineraryItem immediately after the existing “सुदर्शन सेतु” item with place exactly “📍 बेट द्वारका मुख्य मंदिर दर्शन (Beyt Dwarka Temple Darshan)” and description containing “ध्यान दें: मंदिर दोपहर 1:00 बजे से 3:00 बजे तक बंद रहता है।” plus “(Timings: 9 AM - 1 PM & 3 PM - 6 PM)” in the same description; keep content fully offline with no new network/backend dependencies."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Reorder/replace local Day 3 itinerary items to exactly match the requested Morning→Afternoon→Evening sequence and text.",
+      "acceptanceCriteria": [
+        "Selecting “3 दिन” in the Yatra Plan tab shows Day 3 items in the exact requested order: Shopping (morning) → Porbandar travel (afternoon) → Return/Relax (evening).",
+        "The three Day 3 place strings match the requested strings exactly (including the “📍” where provided).",
+        "The old Day 3 order/content is no longer shown."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/dwarkaGuide.ts",
+          "operation": "modify",
+          "description": "Replace the existing itineraries[3] Day 3 items so they render in the exact requested order and with exact strings: Morning place “📍 द्वारका मार्केट में खरीदारी (Dwarka Market Shopping)”, Afternoon place “📍 पोरबंदर के लिए प्रस्थान (Travel to Porbandar - Kirti Mandir & Sudama Mandir)”, Evening place “वापसी या विश्राम (Return/Relax)”; remove/replace conflicting older Day 3 entries so only this flow is shown, keeping data local/offline."
+        }
+      ]
+    },
+    {
+      "id": "REQ-23",
+      "summary": "Render a visually distinct highlighted Sanskruti Novelty recommendation card inside the Day 3 Shopping timeline item with the exact requested text fields.",
+      "acceptanceCriteria": [
+        "When viewing Day 3, the Shopping timeline item contains a clearly highlighted card section (distinct border/background) showing the exact four text fields requested.",
+        "The highlighted card appears only within the Day 3 Shopping item (not as a separate day or separate unrelated section).",
+        "All existing navigation and offline behavior remain unchanged (no new API/canister dependencies)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/dwarkaGuide.ts",
+          "operation": "modify",
+          "description": "Extend the local itinerary data model to support an optional nested recommendation card payload on an itinerary item (e.g., a recommendationCard object with title/shopName/location/details fields) and populate it ONLY on the Day 3 Shopping item with exact texts: Title “📸 फोटो और 3D स्टूडियो (Recommended)”; Shop Name “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”; Location “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस (Walking Distance from Temple).”; Details “द्वारकाधीश के सभी प्रकार के लाइटिंग फोटो और 3D फोटो के लिए सबसे अच्छी और किफायती (वाजिब दाम) जगह।”."
+        },
+        {
+          "path": "frontend/src/tabs/YatraPlanTab.tsx",
+          "operation": "modify",
+          "description": "Update the Day 3 timeline item rendering to conditionally display a visually distinct highlighted card within the Shopping item content when the new local recommendation payload is present; use existing shadcn-ui Card (from shadcn-ui) or Tailwind utility styling to ensure a distinct border/background and spacing. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-24",
+      "summary": "Add a placeholder image slot inside the highlighted recommendation card using a placeholder URL sourced from local data/config and resilient to offline use.",
+      "acceptanceCriteria": [
+        "The highlighted recommendation card renders an image slot (e.g., <img> or background image block) above or beside the text.",
+        "The image slot uses a placeholder URL value sourced from local data/config so it can be replaced later without changing component layout code.",
+        "The placeholder does not break offline-first UX (the UI remains usable even if the placeholder cannot be fetched)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/data/dwarkaGuide.ts",
+          "operation": "modify",
+          "description": "Add a placeholder image URL field to the local recommendation card payload for the Day 3 Shopping item (keep it as local data/config so it can be swapped later without layout code changes)."
+        },
+        {
+          "path": "frontend/src/tabs/YatraPlanTab.tsx",
+          "operation": "modify",
+          "description": "Render an image slot within the highlighted recommendation card using the placeholder URL from local data; ensure offline-first resilience by handling image load failure gracefully (e.g., hide the broken image and keep the card’s text/layout usable). If using shadcn-ui Card structure for layout, verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

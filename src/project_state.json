@@ -1,0 +1,317 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 11,
+  "summary": "Extend the offline-ready Hindi-only Dwarka Yatra Guide PWA to be business-ready and installable: add an in-app “Install App for Offline Use” prompt (Add to Home Screen), and add monetization UI in the Connectivity/Transport tab with a highlighted Rent a Car/Bike section and WhatsApp booking link, while ensuring peacock-feather header icon, correct Bhadkeshwar spelling, and unique Day 3 itinerary logic.",
+  "architectural_notes": [
+    "Offline-first: use only local/hardcoded data; no external API/network calls.",
+    "Ensure app works instantly on launch and avoids runtime/network-related errors (\"no canister errors\").",
+    "App language must be strictly Hindi across all UI and content.",
+    "All guide content remains offline/local, but allow external deep links to Google Maps for \"📍 Map\" actions (no in-app map API required).",
+    "Remove/avoid displaying specific prices; use descriptive text like \"Rates Available on spot\" where applicable.",
+    "Rules/Warnings content must reflect the updated prohibited items list (offline/local content), shown in Hindi.",
+    "Support PWA installability (web app manifest + service worker) while preserving offline-first behavior (no required network calls for core content).",
+    "Allow external deep links for business actions (e.g., WhatsApp “Book Now”) similar to Google Maps links; no in-app WhatsApp SDK required.",
+    "When adding a placeholder shop image, avoid external network dependencies; prefer a bundled local asset or data-URI placeholder to preserve offline-first behavior."
+  ],
+  "known_issues": [
+    "Bug: Selecting \"दिन 3\" currently shows the same itinerary as \"दिन 1\" (Day 3 logic not applied).",
+    "Potential offline-first conflict: using a remote/generic placeholder image URL may trigger a network request; ensure placeholder is local/bundled or cached by service worker."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-create-a-modern-single-page-app-shell-with-a-fixed-bottom-tab-bar-containing-exactly-4-tabs-yatra-plan-connectivity-stay-food-and-rules-timings-switching-tabs-must-not-trigger-any-network-api-canister-calls-and-must-work-fully-offline",
+      "title": "Create a modern single-page app shell with a fixed bottom tab bar containing exactly 4 tabs: “Yatra Plan”, “Connectivity”, “Stay & Food”, and “Rules & Timings”. Switching tabs must not trigger any network/API/canister calls and must work fully offline.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-yatra-plan-tab-with-a-days-selector-1-2-3-and-render-the-matching-hardcoded-itinerary-use-only-local-hardcoded-data-display-the-plan-as-a-clear-ordered-timeline-list-with-times-notes-where-provided",
+      "title": "Implement the “Yatra Plan” tab with a Days selector (1, 2, 3) and render the matching hardcoded itinerary. Use only local/hardcoded data. Display the plan as a clear ordered timeline/list with times/notes where provided.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-connectivity-tab-as-a-clean-static-table-no-api-calls-showing-three-sections-trains-luxury-buses-and-local-transport-using-the-provided-entries-and-pricing-exactly-as-given",
+      "title": "Implement the “Connectivity” tab as a clean static table (no API calls) showing three sections: Trains, Luxury Buses, and Local Transport, using the provided entries and pricing exactly as given.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-stay-food-tab-using-hardcoded-categorized-lists-dharamshala-budget-with-approximate-price-range-hotels-mid-range-luxury-and-best-food-using-the-provided-items-exactly",
+      "title": "Implement the “Stay & Food” tab using hardcoded categorized lists: Dharamshala (Budget) with approximate price range, Hotels (Mid-Range), Luxury, and Best Food, using the provided items exactly.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-rules-timings-tab-with-the-provided-temple-timings-and-a-critical-notice-highlighted-in-red-use-only-local-hardcoded-data-and-display-the-banned-items-warning-verbatim",
+      "title": "Implement the “Rules & Timings” tab with the provided temple timings and a critical notice highlighted in red. Use only local/hardcoded data and display the banned-items warning verbatim.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-the-app-branding-and-layout-polish-set-the-app-title-to-ultimate-dwarka-yatra-guide-with-branding-for-the-desi-musafir-use-a-saffron-orange-and-blue-theme-consistently-across-tabs-and-add-a-footer-on-all-tabs-reading-planned-by-the-desi-musafir-that-links-to-the-instagram-profile",
+      "title": "Apply the app branding and layout polish: set the app title to “Ultimate Dwarka Yatra Guide” with branding for “The Desi Musafir”, use a Saffron (Orange) and Blue theme consistently across tabs, and add a footer on all tabs reading “Planned by @the_desi.musafir” that links to the Instagram profile.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-app-has-no-canister-errors-by-not-requiring-any-backend-canister-interactions-for-core-functionality-all-guide-content-must-be-bundled-in-the-frontend-as-local-data-and-the-ui-must-not-fail-if-the-backend-is-unavailable",
+      "title": "Ensure the app has “NO Canister Errors” by not requiring any backend/canister interactions for core functionality: all guide content must be bundled in the frontend as local data and the UI must not fail if the backend is unavailable.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-convert-the-app-s-navigation-and-all-visible-guide-content-to-hindi-including-the-4-bottom-tab-labels-and",
+      "title": "Convert the app’s navigation and all visible guide content to Hindi, including the 4 bottom tab labels: “यात्रा प्लान”, “कैसे पहुँचें”, “होटल और भोजन”, and “नियम और समय”.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-header-branding-text-to-hindi-while-preserving-the-creator-attribution-so-the-app-title-is-in-hindi-e-g-and-the-by-the-desi-musafir-line-remains-present",
+      "title": "Update the header branding text to Hindi while preserving the creator attribution, so the app title is in Hindi (e.g., “द्वारका यात्रा गाइड”) and the “by The Desi Musafir” line remains present.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-yatra-plan-data-and-ui-strings-with-the-provided-hindi-1-2-3-day-logic-using-only-local-hardcoded-data-and-show-a-hindi-day-selector-for-1-2-3",
+      "title": "Replace the Yatra Plan data and UI strings with the provided Hindi 1/2/3-day logic, using only local/hardcoded data, and show a Hindi day selector for दिन (1, 2, 3).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-clickable-map-link-next-to-every-location-name-in-the-yatra-plan-itinerary-that-opens-google-maps-in-a-new-tab-window-for-that-location-using-a-url-based-maps-search-no-maps-sdk-no-api-keys",
+      "title": "Add a clickable “📍 Map” link next to every location name in the Yatra Plan itinerary that opens Google Maps in a new tab/window for that location (using a URL-based Maps search; no Maps SDK, no API keys).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-connectivity-tab-to-hindi-using-the-provided-lists-and-remove-all-pricing-from-local-transport-present-trains-luxury-buses-and-local-transport-as-static-hindi-sections-with-no-prices",
+      "title": "Update the Connectivity tab to Hindi using the provided lists and remove all pricing from local transport; present Trains, Luxury Buses, and Local Transport as static Hindi sections with no prices.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-stay-food-tab-to-hindi-using-the-provided-lists-expand-the-options-to-include-all-provided-entries-and-remove-any-explicit-prices-or-price-ranges-from-the-ui-and-local-data",
+      "title": "Update the Stay & Food tab to Hindi using the provided lists, expand the options to include all provided entries, and remove any explicit prices or price ranges from the UI and local data.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-rules-tab-to-hindi-with-the-provided-temple-timings-and-show-the-provided-red-warning-text-verbatim-in-hindi-ensure-any-additional-guideline-text-on-the-screen-is-also-in-hindi",
+      "title": "Update the Rules tab to Hindi with the provided temple timings and show the provided red warning text verbatim in Hindi; ensure any additional guideline text on the screen is also in Hindi.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-hindi-place-name-text-with-the-exact-string-bhadkeshwar-everywhere-it-appears-in-the-app-s-bundled-guide-content-and-ui-including-the-yatra-plan-itinerary-place-names",
+      "title": "Replace the Hindi place name text \"भद्रेश्वर\" with the exact string \"भड़केश्वर महादेव (Bhadkeshwar)\" everywhere it appears in the app’s bundled guide content and UI (including the Yatra Plan itinerary place names).",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-top-header-icon-in-the-global-layout-by-replacing-the-current-om-symbol-with-a-peacock-feather-icon-or-another-krishna-dwarkadhish-related-symbol-use-as-the-default-replacement",
+      "title": "Update the top header icon in the global layout by replacing the current Om (ॐ/🕉️) symbol with a peacock feather icon (🪶) or another Krishna/Dwarkadhish-related symbol; use 🪶 as the default replacement.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-day-3-selection-bug-in-the-yatra-plan-tab-so-that-selecting-3-days-does-not-show-the-day-1-plan-and-instead-shows-the-correct-day-3-itinerary-content-update-the-day-3-itinerary-to-match-morning-rukmini-devi-mandir-afternoon-or-evening-shopping",
+      "title": "Fix the Day 3 selection bug in the Yatra Plan tab so that selecting \"3 days\" does not show the Day 1 plan and instead shows the correct Day 3 itinerary content. Update the Day 3 itinerary to match: Morning: \"📍 रुक्मिणी देवी मंदिर (Rukmini Devi Mandir)\"; Afternoon: \"📍 पोरबंदर (सुदामा मंदिर और कीर्ति मंदिर) OR मूल द्वारका\"; Evening: \"द्वारका मार्केट में खरीदारी (Shopping)\".",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-rules-tab-warning-content-to-include-an-explicit-prohibited-items-list-under-a-strictly-prohibited-heading-with-these-items-mobile-phones-smart-watches-electronics-car-remote-keys-tobacco-lighter",
+      "title": "Update the Rules tab warning content to include an explicit prohibited-items list under a \"Strictly Prohibited\" heading, with these items: \"मोबाइल फोन (Mobile Phones)\", \"स्मार्ट वॉच (Smart Watches)\", \"हेडफोन / इलेक्ट्रॉनिक्स (Electronics)\", \"कार की चाबी (Car Remote Keys)\", \"सिगरेट, लाइटर, माचिस (Tobacco/Lighter)\".",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-app-installable-as-a-pwa-and-add-an-in-app-install-prompt-ui-add-a-bottom-positioned-prominent-prompt-button-that-appears-when-installation-is-available-with-the-exact-button-text-install-app-for-offline-use-and-short-guidance-telling-the-user-to-add-to-home-screen-including-an-ios-friendly-instruction-path-when-the-install-event-is-not-available-the-install-prompt-must-be-dismissible-and-must-not-block-core-navigation",
+      "title": "Make the app installable as a PWA and add an in-app install prompt UI. Add a bottom-positioned, prominent prompt/button that appears when installation is available, with the exact button text: \"📲 Install App for Offline Use\" and short guidance telling the user to \"Add to Home Screen\" (including an iOS-friendly instruction path when the install event is not available). The install prompt must be dismissible and must not block core navigation.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-connectivity-transport-tab-add-a-monetization-focused-rent-a-car-bike-section-that-visually-stands-out-with-a-gold-border-include-the-exact-text-for-best-rates-trusted-service-contact-desi-musafir-and-a-primary-cta-button-labeled-exactly-book-now-whatsapp-that-opens-whatsapp-in-a-new-tab-window-to-the-owner-phone-number",
+      "title": "In the \"Connectivity/Transport\" tab, add a monetization-focused \"Rent a Car/Bike\" section that visually stands out with a gold border. Include the exact text: \"For Best Rates & Trusted Service - Contact Desi Musafir\" and a primary CTA button labeled exactly \"Book Now (WhatsApp)\" that opens WhatsApp in a new tab/window to the owner phone number.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-local-day-2-itinerary-data-to-insert-a-new-step-immediately-after-the-existing-cross-sudarshan-setu-step-place-text-must-be-exactly-beyt-dwarka-temple-darshan-and-it-must-include-an-important-note-description-exactly-1-00-3-00-including-the-timing-context-timings-9-am-1-pm-3-pm-6-pm-as-part-of-the-same-step-s-note",
+      "title": "Update the local Day 2 itinerary data to insert a new step immediately after the existing “Cross Sudarshan Setu / सुदर्शन सेतु” step: place text must be exactly “📍 बेट द्वारका मुख्य मंदिर दर्शन (Beyt Dwarka Temple Darshan)” and it must include an important note/description exactly “ध्यान दें: मंदिर दोपहर 1:00 बजे से 3:00 बजे तक बंद रहता है।” including the timing context “(Timings: 9 AM - 1 PM & 3 PM - 6 PM)” as part of the same step’s note.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-reorder-the-local-day-3-itinerary-flow-so-the-sequence-is-reversed-to-match-morning-dwarka-market-shopping-afternoon-travel-to-porbandar-kirti-mandir-sudama-mandir-evening-return-relax-remove-replace-any-conflicting-older-day-3-items-so-the-displayed-day-3-timeline-reflects-this-exact-order-and-text",
+      "title": "Reorder the local Day 3 itinerary flow so the sequence is reversed to match: Morning—“📍 द्वारका मार्केट में खरीदारी (Dwarka Market Shopping)”; Afternoon—“📍 पोरबंदर के लिए प्रस्थान (Travel to Porbandar - Kirti Mandir & Sudama Mandir)”; Evening—“वापसी या विश्राम (Return/Relax)”. Remove/replace any conflicting older Day 3 items so the displayed Day 3 timeline reflects this exact order and text.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-special-highlighted-recommendation-card-inside-the-day-3-shopping-section-i-e-rendered-within-the-shopping-timeline-item-content-with-these-exact-texts-title-3d-recommended-shop-name-location-walking-distance-from-temple-details-3d-the-card-must-be-visually-distinct-from-normal-text-highlighted-styling",
+      "title": "Add a special highlighted recommendation card inside the Day 3 “Shopping” section (i.e., rendered within the Shopping timeline item content) with these exact texts: Title “📸 फोटो और 3D स्टूडियो (Recommended)”; Shop Name “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”; Location “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस (Walking Distance from Temple).”; Details “द्वारकाधीश के सभी प्रकार के लाइटिंग फोटो और 3D फोटो के लिए सबसे अच्छी और किफायती (वाजिब दाम) जगह।” The card must be visually distinct from normal text (highlighted styling).",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-within-the-highlighted-sanskruti-novelty-recommendation-card-include-a-placeholder-image-area-that-uses-a-generic-placeholder-url-not-yet-a-real-shop-photo-so-the-layout-is-correct",
+      "title": "Within the highlighted “Sanskruti Novelty” recommendation card, include a placeholder image area that uses a generic placeholder URL (not yet a real shop photo) so the layout is correct.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-7",
+      "summary": "Hindi-only 4-tab bottom navigation app shell with tab labels: यात्रा प्लान, कैसे पहुँचें, होटल और भोजन, नियम और समय (modern UI)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "यात्रा प्लान tab: दिन (1/2/3) selector shows the provided Hindi itinerary, and each location has a clickable \"📍 Map\" link opening Google Maps",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "कैसे पहुँचें tab: static Hindi sections for Trains (वंदे भारत, सौराष्ट्र मेल, ओखा एक्सप्रेस), Luxury Buses (पटेल टूर्स, ईगल ट्रेवल्स, GSRTC), and Local Transport (no prices; rates on spot)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "होटल और भोजन tab: hardcoded Hindi categorized lists for Dharamshala (budget), Mid-Range Hotels, Luxury Hotels, and Best Food places; remove specific prices and include extensive options provided",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "नियम और समय tab: show provided temple timings in Hindi and a critical red warning: \"मंदिर के अंदर मोबाइल फोन और स्मार्टवॉच ले जाना सख्त मना है। कृपया लॉकर में जमा करें।\"",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Branding/polish: consistent Saffron (Bhagwa) & Blue theme, and footer on all tabs \"Planned by @the_desi.musafir\" linking to Instagram",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Global text update: replace \"भद्रेश्वर\" with \"भड़केश्वर महादेव (Bhadkeshwar)\" everywhere in the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Header branding update: replace the top header \"ॐ\" icon with a Peacock Feather (🪶) or Krishna/Dwarkadhish-related symbol",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Fix Day 3 itinerary logic: ensure selecting दिन 3 shows Day 3 plan (Morning: रुक्मिणी देवी मंदिर; Afternoon: पोरबंदर (सुदामा मंदिर और कीर्ति मंदिर) OR मूल द्वारका; Evening: द्वारका मार्केट में खरीदारी) instead of duplicating Day 1",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Rules tab update: expand \"सख्त मना है\" prohibited items list to include मोबाइल फोन, स्मार्ट वॉच, हेडफोन/इलेक्ट्रॉनिक्स, कार की चाबी (रिमोट), सिगरेट/लाइटर/माचिस",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "PWA/installability: add an in-app “📲 Install App for Offline Use” prompt/button (Add to Home Screen) and ensure the app is installable like a native app (manifest + service worker) while remaining offline-first",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Business/monetization (Connectivity tab): make “Rent a Car/Bike” section stand out with a gold border, add text “For Best Rates & Trusted Service - Contact Desi Musafir”, and add a “Book Now (WhatsApp)” button linking to the user’s WhatsApp number",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Update Day 2 itinerary: after “Cross Sudarshan Setu”, add step “📍 बेट द्वारका मुख्य मंदिर दर्शन (Beyt Dwarka Temple Darshan)” with note “ध्यान दें: मंदिर दोपहर 1:00 बजे से 3:00 बजे तक बंद रहता है। (Timings: 9 AM - 1 PM & 3 PM - 6 PM)”",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Update/reorder Day 3 itinerary flow: Morning—द्वारका मार्केट में खरीदारी; Afternoon—पोरबंदर के लिए प्रस्थान (Kirti Mandir & Sudama Mandir); Evening—वापसी या विश्राम (Return/Relax)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add a special highlighted card inside Day 3 Shopping section: Title “📸 फोटो और 3D स्टूडियो (Recommended)”; Shop “संस्कृति नॉवेल्टी (पुरुषोत्तम भाई मच्छर)”; Location “द्वारकाधीश मंदिर से वॉकिंग डिस्टेंस (Walking Distance from Temple).”; Details “द्वारकाधीश के सभी प्रकार के लाइटिंग फोटो और 3D फोटो के लिए सबसे अच्छी और किफायती (वाजिब दाम) जगह।”",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Add placeholder image area/URL to the Day 3 “Sanskruti Novelty” highlighted card so the layout supports a shop photo slot",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Ultimate Dwarka Yatra Guide",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
